@@ -1,0 +1,69 @@
+﻿@model VehicleRentalManagementSystem.Models.Customer
+
+@{
+    ViewData["Title"] = "Delete Customer";
+}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Delete Customer</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+                        Are you sure you want to delete this customer?
+                    </div>
+
+                    <h5 class="fw-bold">
+                        @Model.Name
+                    </h5>
+
+                    <p>
+                        <strong>Email:</strong>
+                        @Model.Email
+                    </p>
+
+                    <p>
+                        <strong>Phone:</strong>
+                        @Model.Phone
+                    </p>
+
+                    <p>
+                        <strong>Driving License:</strong>
+                        @Model.DrivingLicenseNo
+                    </p>
+
+                    <form asp-action="Delete" method="post">
+
+                        <input type="hidden"
+                               asp-for="CustomerId" />
+
+                        <button type="submit"
+                                class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary">
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,146 @@
+﻿@model VehicleRentalManagementSystem.Models.RentalBooking
+
+@{
+    ViewData["Title"] = "Create Booking";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Create Rental Booking</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="All"
+                             class="alert alert-danger">
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="CustomerId"
+                                       class="form-label">
+                                    Customer
+                                </label>
+
+                                <select asp-for="CustomerId"
+                                        asp-items="ViewBag.CustomerId"
+                                        class="form-select">
+
+                                    <option value="">
+                                        Select Customer
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="CustomerId"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="VehicleId"
+                                       class="form-label">
+                                    Vehicle
+                                </label>
+
+                                <select asp-for="VehicleId"
+                                        asp-items="ViewBag.VehicleId"
+                                        class="form-select">
+
+                                    <option value="">
+                                        Select Available Vehicle
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="VehicleId"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="PickupDate"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="PickupDate"
+                                       type="date"
+                                       class="form-control"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+
+                                <span asp-validation-for="PickupDate"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="ReturnDate"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="ReturnDate"
+                                       type="date"
+                                       class="form-control" />
+
+                                <span asp-validation-for="ReturnDate"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="alert alert-info">
+                            <strong>Note:</strong>
+                            Total rental charges will be calculated
+                            automatically based on the number of days
+                            and vehicle rent per day.
+                        </div>
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Create Booking
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

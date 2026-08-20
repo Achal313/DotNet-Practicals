@@ -1,0 +1,157 @@
+﻿@model IEnumerable<VehicleRentalManagementSystem.Models.Vehicle>
+
+@{
+    ViewData["Title"] = "Vehicles";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Vehicle Management</h2>
+            <p class="text-muted">Manage all rental vehicles.</p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            + Add Vehicle
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Success"]
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["Error"]
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Vehicle</th>
+                            <th>Number</th>
+                            <th>Type</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Rent / Day</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.VehicleId</td>
+
+                                <td class="fw-semibold">
+                                    @item.VehicleName
+                                </td>
+
+                                <td>
+                                    @item.VehicleNumber
+                                </td>
+
+                                <td>
+                                    @item.VehicleType
+                                </td>
+
+                                <td>
+                                    @item.Brand
+                                </td>
+
+                                <td>
+                                    @item.Model
+                                </td>
+
+                                <td>
+                                    ₹ @item.RentPerDay
+                                </td>
+
+                                <td>
+                                    @if (item.AvailabilityStatus == "Available")
+                                    {
+                                        <span class="badge bg-success">
+                                            Available
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            @item.AvailabilityStatus
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="btn-group">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.VehicleId"
+                                           class="btn btn-sm btn-info">
+                                            Details
+                                        </a>
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.VehicleId"
+                                           class="btn btn-sm btn-warning">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@item.VehicleId"
+                                           class="btn btn-sm btn-danger">
+                                            Delete
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5>No vehicles found</h5>
+                    <p class="text-muted">
+                        Add your first vehicle to the system.
+                    </p>
+
+                    <a asp-action="Create"
+                       class="btn btn-primary">
+                        Add Vehicle
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

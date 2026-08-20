@@ -1,0 +1,106 @@
+﻿@model VehicleRentalManagementSystem.Models.Payment
+
+@{
+    ViewData["Title"] = "Payment Details";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-dark text-white">
+
+                    <h4 class="mb-0">
+                        Payment #@Model.PaymentId
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <dl class="row">
+
+                        <dt class="col-sm-4">
+                            Booking ID
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            #@Model.BookingId
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Customer
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.RentalBooking?.Customer?.Name
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Vehicle
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.RentalBooking?.Vehicle?.VehicleName
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Amount
+                        </dt>
+
+                        <dd class="col-sm-8 fw-bold text-success">
+                            ₹ @Model.Amount.ToString("N2")
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Payment Date
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.PaymentDate.ToString("dd-MM-yyyy hh:mm tt")
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Payment Method
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.PaymentMethod
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Payment Status
+                        </dt>
+
+                        <dd class="col-sm-8">
+
+                            <span class="badge bg-success">
+                                @Model.PaymentStatus
+                            </span>
+
+                        </dd>
+
+                    </dl>
+
+                    <div class="mt-4">
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary">
+                            Back to Payments
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

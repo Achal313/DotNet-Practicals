@@ -1,0 +1,206 @@
+﻿@model IEnumerable<VehicleRentalManagementSystem.Models.RentalBooking>
+
+@{
+    ViewData["Title"] = "Rental Bookings";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Rental Bookings</h2>
+            <p class="text-muted">Manage all vehicle rental bookings.</p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            + New Booking
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Customer</th>
+                            <th>Vehicle</th>
+                            <th>Pickup</th>
+                            <th>Return</th>
+                            <th>Days</th>
+                            <th>Charges</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td class="fw-bold">
+                                    #@item.BookingId
+                                </td>
+
+                                <td>
+                                    @item.Customer?.Name
+                                </td>
+
+                                <td>
+                                    @item.Vehicle?.VehicleName
+                                </td>
+
+                                <td>
+                                    @item.PickupDate.ToString("dd-MM-yyyy")
+                                </td>
+
+                                <td>
+                                    @item.ReturnDate.ToString("dd-MM-yyyy")
+                                </td>
+
+                                <td>
+                                    @item.TotalDays
+                                </td>
+
+                                <td>
+                                    ₹ @item.TotalCharges.ToString("N2")
+                                </td>
+
+                                <td>
+                                    @if (item.BookingStatus == "Confirmed")
+                                    {
+                                        <span class="badge bg-primary">
+                                            Confirmed
+                                        </span>
+                                    }
+                                    else if (item.BookingStatus == "Completed")
+                                    {
+                                        <span class="badge bg-success">
+                                            Completed
+                                        </span>
+                                    }
+                                    else if (item.BookingStatus == "Cancelled")
+                                    {
+                                        <span class="badge bg-danger">
+                                            Cancelled
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            @item.BookingStatus
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+
+                                    <div class="btn-group">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.BookingId"
+                                           class="btn btn-sm btn-info">
+                                            Details
+                                        </a>
+
+                                        @if (item.BookingStatus != "Completed" &&
+                                                                            item.BookingStatus != "Cancelled")
+                                        {
+                                            <form asp-action="ReturnVehicle"
+                                                  asp-route-id="@item.BookingId"
+                                                  method="post"
+                                                  class="d-inline">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-success"
+                                                        onclick="return confirm('Return this vehicle?');">
+                                                    Return
+                                                </button>
+
+                                            </form>
+
+                                            <form asp-action="Cancel"
+                                                  asp-route-id="@item.BookingId"
+                                                  method="post"
+                                                  class="d-inline">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Cancel this booking?');">
+                                                    Cancel
+                                                </button>
+
+                                            </form>
+                                        }
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+
+                    <h5>No bookings found</h5>
+
+                    <p class="text-muted">
+                        Create your first rental booking.
+                    </p>
+
+                    <a asp-action="Create"
+                       class="btn btn-primary">
+                        Create Booking
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,155 @@
+﻿@model IEnumerable<VehicleRentalManagementSystem.Models.Payment>
+
+@{
+    ViewData["Title"] = "Payments";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">Payment Management</h2>
+            <p class="text-muted">
+                Manage rental payments and payment history.
+            </p>
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-primary">
+            + Add Payment
+        </a>
+
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Booking</th>
+                            <th>Customer</th>
+                            <th>Vehicle</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    #@item.PaymentId
+                                </td>
+
+                                <td>
+                                    #@item.BookingId
+                                </td>
+
+                                <td>
+                                    @item.RentalBooking?.Customer?.Name
+                                </td>
+
+                                <td>
+                                    @item.RentalBooking?.Vehicle?.VehicleName
+                                </td>
+
+                                <td class="fw-bold">
+                                    ₹ @item.Amount.ToString("N2")
+                                </td>
+
+                                <td>
+                                    @item.PaymentDate.ToString("dd-MM-yyyy")
+                                </td>
+
+                                <td>
+                                    @item.PaymentMethod
+                                </td>
+
+                                <td>
+
+                                    @if (item.PaymentStatus == "Paid")
+                                    {
+                                        <span class="badge bg-success">
+                                            Paid
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            @item.PaymentStatus
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.PaymentId"
+                                       class="btn btn-sm btn-info">
+                                        Details
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+
+                    <h5>No payments found</h5>
+
+                    <p class="text-muted">
+                        Payment records will appear here.
+                    </p>
+
+                    <a asp-action="Create"
+                       class="btn btn-primary">
+                        Add Payment
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
